@@ -1,0 +1,33 @@
+﻿#Simple Moving Average Definition
+
+extern int FastMAPeriod = 5;
+extern int SlowMAPeriod = 25;
+
+double SMA(m,n) = {p(m)+p(m+1)+p(m+2)+...+p(m+n-1)}/n; # m=0;now m=1, 1 day before, m=2 2days before
+
+double FastLine2 = 0;
+double SlowLine2 = 0;
+double FastLine1 = 0;
+double SlowLine1 = 0;
+
+int start() #When new candle bar happens, it will excute
+{
+
+   FastLine2 = SMA(2, FastMAPeriod);
+   SlowLine2 = SMA(2, SlowMAPeriod);
+   FastLine1 = SMA(1, FastMAPeriod);
+   SlowLine1 = SMA(1, SlowMAPeriod);
+
+      
+   //Send Signals 
+   if(   FastLine2 <= SlowLine2 && FastLine1 > SlowLine1)
+      {
+         SignalSend BUY;
+      }
+      
+   if(   FastLine2 >= SlowLine2 && FastLine1 < SlowLine1)
+      {
+         SignalSend SELL;
+      }
+      
+return(0);
